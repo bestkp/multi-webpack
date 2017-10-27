@@ -10,7 +10,10 @@ const config = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: '[name].[hash:7].js'
+		filename: '[name].[hash:7].js',
+		chunkFilename: "[name].[id].js",
+		pathinfo: true,
+		publicPath: ""
 	},
 	module: {
 		rules: [
@@ -34,7 +37,8 @@ const config = {
 	],
 	resolve: {
 		extensions: ['.js', '.jsx']
-	}
+	},
+	devtool: 'eval'
 
 };
 module.exports = config;
