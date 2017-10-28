@@ -13,10 +13,11 @@ const config = {
 		filename: '[name].[hash:7].js',
 		chunkFilename: "[name].[id].js",
 		pathinfo: true,
-		publicPath: ""
+		publicPath: "/assets/"
 	},
 	module: {
-		rules: [
+        noParse: '/jquery/',
+        rules: [
 			{
 				test: /\.css$/,
 				use: [
