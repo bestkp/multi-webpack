@@ -1,45 +1,58 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin'); //通过 npm 安装
 const webpack = require('webpack'); //访问内置的插件
 const path = require('path');
-
-const config = {
+const eslintFormatter = require('eslint-friendly-formatter');
+const dirConfig = require('./config/dir.config');
+require('./scripts/rmdist');
+const baseConfig = {
 	entry: {
-		home: './pages/home/home.js',
-		two: './pages/pageTwo/index.js',
-		three: './pages/pageThree/index.js'
-	},
-	output: {
-		path: path.resolve(__dirname, 'dist'),
-		filename: '[name].[hash:7].js',
-		chunkFilename: "[name].[id].js",
-		pathinfo: true,
-		publicPath: "/assets/"
+		home: './src/pages/home/home.js',
+		two	: './src/pages/pageTwo/index.js',
+		three: './src/pages/pageThree/index.js'
 	},
 	module: {
-        noParse: '/jquery/',
-        rules: [
+		rules: [
 			{
 				test: /\.css$/,
 				use: [
 					{loader: 'style-loader'},
-					{
-						loader: 'css-loader',
-						options: {
-
-						}
-					}
+					{loader: 'css-loader'}
 				]
-			}
+			}, {
+				test: /\.js$/,
+				enforce: 'pre',
+				loader: 'eslint-loader',
+				include: dirConfig.srcRootDir,
+				options: {
+					formatter: eslintFormatter,
+					fix: true,
+				}
+			}, {
+				test: /\.js$/,
+				loader: 'babel-loader',
+				include: dirConfig.srcRootDir
+			}, {
+				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+				loader: 'url-loader',
+				query: {
+					limit: 10000,
+					name: './static/img/[hash:7].[ext]',
+				}
+			}, {
+				// 专供iconfont方案使用的，后面会带一串时间戳，需要特别匹配到
+				test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
+				include: dirConfig.srcRootDir,
+				loader: 'file-loader',
+				options: {
+					name: 'static/fonts/[name].[hash].[ext]',
+				},
+			},
 		]
 	},
-	plugins: [
-		new webpack.optimize.UglifyJsPlugin(),
-		new HtmlWebpackPlugin({template: './pages/home/index.html'})
-	],
 	resolve: {
-		extensions: ['.js', '.jsx']
-	},
-	devtool: 'eval'
-
+		alias: {
+			jq: '../../static/lib/jquery-1.11.3.min.js'
+		},
+		moduleExtensions: ['js, jsx']
+	}
 };
-module.exports = config;
+module.exports = baseConfig;
