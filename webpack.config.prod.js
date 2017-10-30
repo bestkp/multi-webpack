@@ -6,7 +6,6 @@ var merge = require('webpack-merge')
 var baseConfig = require('./webpack.config')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-var dirConfig = require('./config/dir.config');
 
 var env = 'production';
 
@@ -57,8 +56,8 @@ var webpackConfig = merge(baseConfig, {
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		publicPath: '/',
-		filename: '[name].[chunkhash].js',
-		chunkFilename: '[id].[chunkhash].js'
+		filename: 'js/[name].[chunkhash].js',
+		chunkFilename: 'chunk/[id].[chunkhash].js'
 	},
 	plugins: [
 		// http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -114,7 +113,7 @@ var webpackConfig = merge(baseConfig, {
 		new CopyWebpackPlugin([
 			{
 				from: path.resolve(__dirname, './src/static'),
-				to: dirConfig.buildDir,
+				to: 'static/',
 				ignore: ['.*']
 			}
 		])

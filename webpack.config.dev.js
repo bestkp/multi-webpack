@@ -7,36 +7,35 @@ var baseConfig = require('./webpack.config');
 
 module.exports = merge(baseConfig, {
 	devtool: '#cheap-module-eval-source-map',
+	output: {
+		path: path.resolve(__dirname, 'dist'),
+		publicPath: '/',
+		filename: '[name].[hash:7].js',
+		chunkFilename: '[id].[chunkhash:7].js'
+	},
 	module: {
 		rules: [
 			{
 				test: /\.css$/,
 				use: [{
-						loader: 'style-loader',
-					}, {
-						loader: 'css-loader',
-						options: {
-						  minimize: false,
-						  '-autoprefixer': true,
-						},
-					}, {
-					  loader: 'postcss-loader',
-					}],
+					loader: 'style-loader',
+				}, {
+					loader: 'css-loader',
+				}, {
+					loader: 'postcss-loader',
+				}],
 			}, {
 				test: /\.less$/,
 				use: [{
-						loader: 'style-loader',
-					}, {
-						loader: 'css-loader',
-						options: {
-						  minimize: false,
-						  '-autoprefixer': true,
-						},
-					}, {
-					  loader: 'postcss-loader',
-					}, {
-						loader: 'less-loader',
-					}],
+					loader: 'style-loader',
+				}, {
+					loader: 'css-loader',
+				}, {
+					loader: 'postcss-loader',
+				}, {
+					loader: 'less-loader',
+				},
+				],
 			}
 		]
 	},

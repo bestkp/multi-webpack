@@ -1,13 +1,10 @@
 const webpack = require('webpack'); //访问内置的插件
 const path = require('path');
 const eslintFormatter = require('eslint-friendly-formatter');
-const dirConfig = require('./config/dir.config');
 require('./scripts/rmdist');
 const baseConfig = {
 	entry: {
-		home: './src/pages/home/home.js',
-		two	: './src/pages/pageTwo/index.js',
-		three: './src/pages/pageThree/index.js'
+		home: './src/pages/home/home.js'
 	},
 	module: {
 		rules: [
@@ -17,19 +14,19 @@ const baseConfig = {
 					{loader: 'style-loader'},
 					{loader: 'css-loader'}
 				]
-			}, {
+			}, /*{
 				test: /\.js$/,
 				enforce: 'pre',
 				loader: 'eslint-loader',
-				include: dirConfig.srcRootDir,
+				include: path.resolve(__dirname, 'src'),
 				options: {
 					formatter: eslintFormatter,
 					fix: true,
 				}
-			}, {
+			},*/ {
 				test: /\.js$/,
 				loader: 'babel-loader',
-				include: dirConfig.srcRootDir
+				include: path.resolve(__dirname, 'src')
 			}, {
 				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
 				loader: 'url-loader',
@@ -40,7 +37,7 @@ const baseConfig = {
 			}, {
 				// 专供iconfont方案使用的，后面会带一串时间戳，需要特别匹配到
 				test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
-				include: dirConfig.srcRootDir,
+				include: path.resolve(__dirname, 'src'),
 				loader: 'file-loader',
 				options: {
 					name: 'static/fonts/[name].[hash].[ext]',
