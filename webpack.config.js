@@ -16,7 +16,7 @@ const config = {
 		publicPath: "/assets/"
 	},
 	module: {
-        noParse: '/jquery/',
+        noParse: '/jquery1/',
         rules: [
 			{
 				test: /\.css$/,
