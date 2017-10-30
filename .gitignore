@@ -6,6 +6,7 @@ Desktop.ini
 # Recycle Bin used on file shares
 node_modules
 dist
+.idea
 
 # Windows Installer files
 *.cab
