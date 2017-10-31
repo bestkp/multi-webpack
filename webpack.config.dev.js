@@ -3,45 +3,20 @@ var webpack = require('webpack'); //访问内置的插件
 var path = require('path');
 var merge = require('webpack-merge');
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+var autoprefixer = require('autoprefixer');
 var baseConfig = require('./webpack.config');
+var htmlPlugin = require('./config/htmlPlugin.config');
 
 module.exports = merge(baseConfig, {
-	devtool: '#cheap-module-eval-source-map',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		publicPath: '/',
 		filename: '[name].[hash:7].js',
 		chunkFilename: '[id].[chunkhash:7].js'
 	},
-	module: {
-		rules: [
-			{
-				test: /\.css$/,
-				use: [{
-					loader: 'style-loader',
-				}, {
-					loader: 'css-loader',
-				}, {
-					loader: 'postcss-loader',
-				}],
-			}, {
-				test: /\.less$/,
-				use: [{
-					loader: 'style-loader',
-				}, {
-					loader: 'css-loader',
-				}, {
-					loader: 'postcss-loader',
-				}, {
-					loader: 'less-loader',
-				},
-				],
-			}
-		]
-	},
 	plugins: [
 		new webpack.DefinePlugin({
-			'process.env': 'development'
+			'process.env': '"development"'
 		}),
 		// https://github.com/glenjamin/webpack-hot-middleware#installation--usage
 		new webpack.HotModuleReplacementPlugin(),
@@ -49,11 +24,14 @@ module.exports = merge(baseConfig, {
 		// https://github.com/ampedandwired/html-webpack-plugin
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: path.resolve(__dirname, './src/pages/home/index.html'),
-			inject: true
-		}),
+			template: path.resolve(__dirname, './src/pages/index.html'),
+			inject: true,
+			title: 'by-kp'
+		}), // 單頁配置
+		//htmlPlugin, // 多頁配置
 		new FriendlyErrorsPlugin()
 	],
+	devtool: 'inline-source-map',
 	devServer: {
 		contentBase: './dist/',
 		host: 'localhost',
@@ -63,6 +41,6 @@ module.exports = merge(baseConfig, {
 		open: true,
 		compress: true,
 		watchContentBase: false,
-		clientLogLevel: "info" //在开发工具(DevTools)的控制台(console)将显示消息none, error, warning 或者 info（默认值）。
+		//clientLogLevel: "info" //在开发工具(DevTools)的控制台(console)将显示消息none, error, warning 或者 info（默认值）。
 	}
 });
