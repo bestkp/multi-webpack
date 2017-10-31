@@ -28,7 +28,6 @@ module.exports = merge(baseConfig, {
 			inject: true,
 			title: 'by-kp'
 		}), // 單頁配置
-		//htmlPlugin, // 多頁配置
 		new FriendlyErrorsPlugin()
 	],
 	devtool: 'inline-source-map',
@@ -41,6 +40,5 @@ module.exports = merge(baseConfig, {
 		open: true,
 		compress: true,
 		watchContentBase: false,
-		//clientLogLevel: "info" //在开发工具(DevTools)的控制台(console)将显示消息none, error, warning 或者 info（默认值）。
 	}
 });

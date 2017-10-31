@@ -1,13 +1,10 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack'); //访问内置的插件
 var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var merge = require('webpack-merge')
 var baseConfig = require('./webpack.config')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
-var autoprefixer = require('autoprefixer');
-var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var env = '"production"';
 
 
@@ -24,6 +21,8 @@ var webpackConfig = merge(baseConfig, {
 		new webpack.DefinePlugin({
 			'process.env': env
 		}),
+		//清理dist文件
+		new CleanWebpackPlugin(['dist']),
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings: false,
@@ -48,16 +47,7 @@ var webpackConfig = merge(baseConfig, {
 			},
 			// necessary to consistently work with multiple chunks via CommonsChunkPlugin
 			chunksSortMode: 'dependency'
-		}),
-
-		// copy custom static assets
-		// new CopyWebpackPlugin([
-		// 	{
-		// 		from: path.resolve(__dirname, './src/static'),
-		// 		to: path.resolve(__dirname, './dist/static'),
-		// 		ignore: ['.*']
-		// 	}
-		// ])
+		})
 	]
 })
 var productionGzip = false;
@@ -79,10 +69,4 @@ if (productionGzip) {
 		})
 	)
 }
-
-// if (config.build.bundleAnalyzerReport) {
-// 	var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-// 	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
-// }
-
 module.exports = webpackConfig;

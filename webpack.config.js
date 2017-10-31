@@ -2,7 +2,7 @@ var webpack = require('webpack'); //访问内置的插件
 var path = require('path');
 var eslintFormatter = require('eslint-friendly-formatter');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
+
 var baseConfig = {
 	entry: {
 		one: './src/pages/one/index.js',
@@ -74,11 +74,10 @@ var baseConfig = {
 		moduleExtensions: ['js, jsx']
 	},
 	plugins: [
-		//清理dist文件
-		new CleanWebpackPlugin(['dist']),
+
 		/* 抽取出所有通用的部分 */
 		new webpack.optimize.CommonsChunkPlugin({
-			name: 'commons',      // 需要注意的是，chunk的name不能相同！！！
+			name: 'commons',
 			filename: 'commons/common.[chunkhash].js',
 		}),
 		/* 抽取出webpack的runtime代码()，避免稍微修改一下入口文件就会改动commonChunk，导致原本有效的浏览器缓存失效 */
